@@ -1,3 +1,3 @@
-public class SearchEngine extends Helper{
+class SearchEngine extends Helper{
 
 }

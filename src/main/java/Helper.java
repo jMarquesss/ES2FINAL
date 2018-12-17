@@ -1,15 +1,14 @@
 import java.io.*;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-public class Helper {
+class Helper {
     
-    public static String replacer(String oldStr) {
+    private static String replacer(String oldStr) {
             return oldStr.replaceAll("[0-9,.!?\\-_\n/]", "");
     }
 
-    public static void fileReseter(String filePath){
+    private static void fileReseter(String filePath){
         File f = new File(filePath);
         if(f.exists()) {
             f.delete();
@@ -31,7 +30,7 @@ public class Helper {
             while ((line = bufferedReader.readLine()) != null) {
                 String newLine =replacer(line);
                 boolean isEmpty=newLine.isEmpty();
-                if(isEmpty==false) {
+                if(!isEmpty) {
                     writer.write(newLine+"\r\n");
                 }
                 lineNumber++;
@@ -48,6 +47,7 @@ public class Helper {
 
         }catch (Exception e){
             System.out.println("Falhou");
+            return false;
         }
         return true;
     }
