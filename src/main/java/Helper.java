@@ -1,34 +1,53 @@
 import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class Helper {
-
-    public static Boolean readerReplacerWriter(String filePath, String newFilePath) {
-        return writer(replacer(reader(filePath)), newFilePath);
-    }
-
+    
     public static String replacer(String oldStr) {
-        return oldStr.replaceAll("[0-9,.!?\\-_\n]", "");
+            return oldStr.replaceAll("[0-9,.!?\\-_\n/]", "");
     }
 
-    public static String reader(String filePath) {
-        StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                contentBuilder.append(sCurrentLine).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void fileReseter(String filePath){
+        File f = new File(filePath);
+        if(f.exists()) {
+            f.delete();
         }
-        return contentBuilder.toString();
     }
 
-    public static Boolean writer(String str, String filePath) {
-        try (PrintWriter out = new PrintWriter(filePath)) {
-            out.print(str);
-        } catch (FileNotFoundException ex) {
-            return false;
+    public static Boolean readerWriter(String oldFilePath, String newFilePath) {
+        String tempFile="tempFile.txt";
+
+        try {
+            FileWriter writer = new FileWriter(tempFile, false);
+            FileReader fileReader = new FileReader(oldFilePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            fileReseter(newFilePath);
+
+            int lineNumber=0;
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String newLine =replacer(line);
+                boolean isEmpty=newLine.isEmpty();
+                if(isEmpty==false) {
+                    writer.write(newLine+"\r\n");
+                }
+                lineNumber++;
+            }
+            writer.write(Integer.toString(lineNumber));
+
+            bufferedReader.close();
+            writer.close();
+
+            File tempoFile = new File(tempFile);
+            File newFile = new File(newFilePath);
+            tempoFile.renameTo(newFile);
+            tempoFile.delete();
+
+        }catch (Exception e){
+            System.out.println("Falhou");
         }
         return true;
     }
