@@ -1,3 +1,0 @@
-class SearchEngine extends Helper{
-
-}
