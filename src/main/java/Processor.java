@@ -27,14 +27,14 @@ public class Processor {
         for (int i = 0; i < wordsList.size(); i++) {
             docMatrix.add(new Celula((String) wordsList.toArray()[i]));
         }
-        occuremcesArrayBuilder(docMatrix, docWordsList);
+        occurrencesArrayBuilder(docMatrix, docWordsList);
         ArrayList<Integer> OccurrencesArray = new ArrayList<>();
         for (Celula temp : docMatrix) OccurrencesArray.add(temp.getNumber());
         matrix.add(OccurrencesArray);
         docList = matrix.size();
     }
 
-    private void occuremcesArrayBuilder(ArrayList<Celula> docMatrix, ArrayList<String> docWordsList) {
+    private void occurrencesArrayBuilder(ArrayList<Celula> docMatrix, ArrayList<String> docWordsList) {
         for (int i = 0; i < wordsList.size(); i++)
             for (String aDocWordsList : docWordsList) {
                 Celula temp = docMatrix.get(i);
@@ -51,7 +51,7 @@ public class Processor {
         for (int i = 0; i < wordsList.size(); i++) {
             queryArray.add(new Celula((String) wordsList.toArray()[i]));
         }
-        occuremcesArrayBuilder(queryArray, queryWordsList);
+        occurrencesArrayBuilder(queryArray, queryWordsList);
 
         for (Celula temp : queryArray) {
             queryMatrix.add(temp.getNumber());

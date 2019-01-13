@@ -1,15 +1,15 @@
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HelperTest {
+    Helper h= new Helper();
 
     @Test
     void readerWriter() {
-        String oldPath="big.txt";
-        String newPath="newFile.txt";
-        boolean expectedResult = true;
-        boolean actualResult = true;
-        assertNotEquals(expectedResult, actualResult);
+        assertEquals(false, h.readerWriter("nonExistingFile.txt"));
+
     }
 }
