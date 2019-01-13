@@ -9,10 +9,6 @@ public class Celula {
         this.number=0;
     }
 
-    public Celula(int number, String word) {
-        this.number = number;
-        this.word = word;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -48,7 +44,4 @@ public class Celula {
         return word;
     }
 
-    public void setWord(String word) {
-        this.word = word;
-    }
 }

@@ -10,7 +10,9 @@ class HelperTest {
     @Test
     void readerWriter() {
         assertEquals(false, h.readerWriter("nonExistingFile.txt"));
-        assertEquals(true, h.readerWriter("test1.txt"));
     }
 
+    @Test
+    void readerWriter2() {
+        assertEquals(true, h.readerWriter("test1.txt"));}
 }
