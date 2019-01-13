@@ -8,12 +8,11 @@ final class Helper {
             return oldStr.replaceAll("[0-9,.!?\\-_\n/]", "");
     }
 
-    private boolean fileReseter(String filePath){
+    private void fileReseter(String filePath){
         File f = new File(filePath);
         if(f.exists()) {
-            return f.delete();
+            f.delete();
         }
-        return false;
     }
 
     Boolean readerWriter(String oldFilePath) {
@@ -40,9 +39,7 @@ final class Helper {
             File tempFile = new File("tempFile.txt");
             File newFile = new File(newPath);
             tempFile.renameTo(newFile);
-            if(tempFile.delete()){
-                return true;
-            }
+            tempFile.delete();
 
         }catch (IOException e){
             System.out.println("File not found.");

@@ -45,7 +45,7 @@ public class Processor {
     }
 
 
-    void queryMatrixBuilder(String query) {
+    boolean queryMatrixBuilder(String query) {
         ArrayList<Celula> queryArray = new ArrayList<>();
         ArrayList<String> queryWordsList = new ArrayList<>(Arrays.asList(query.split("\\W+")));
         for (int i = 0; i < wordsList.size(); i++) {
@@ -56,14 +56,16 @@ public class Processor {
         for (Celula temp : queryArray) {
             queryMatrix.add(temp.getNumber());
         }
+        return queryMatrix.size() > 0;
     }
 
-    void matrixReplacer() {
+    boolean matrixReplacer() {
         for (ArrayList<Integer> aMatrix : matrix) {
             ArrayList<Double> line = new ArrayList<>();
             for (int i = 0; i < aMatrix.size(); i++) line.add(i, valueTransformer(aMatrix.get(i), i));
             transformedMatrix.add(line);
         }
+        return transformedMatrix.get(0).get(0).equals(matrix.get(0).get(0));
     }
 
     private double valueTransformer(int startValue, int column) {
@@ -102,6 +104,8 @@ public class Processor {
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
+
+    LinkedHashSet<String> getWordsList() { return wordsList; }
 
     Map<String, Double> getGrauSimList() {
         return grauSimList;
