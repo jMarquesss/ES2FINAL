@@ -4,7 +4,7 @@ public class Celula {
     private int number;
     private String word;
 
-    public Celula( String word) {
+    Celula(String word) {
         this.word = word;
         this.number=0;
     }
@@ -36,15 +36,15 @@ public class Celula {
                 '}';
     }
 
-    public int getNumber() {
+    int getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    void setNumber(int number) {
         this.number = number;
     }
 
-    public String getWord() {
+    String getWord() {
         return word;
     }
 

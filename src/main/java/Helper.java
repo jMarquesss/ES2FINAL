@@ -2,7 +2,7 @@ import java.io.*;
 import java.io.File;
 import java.io.FileReader;
 
-public final class Helper {
+final class Helper {
     
     private String replacer(String oldStr) {
             return oldStr.replaceAll("[0-9,.!?\\-_\n/]", "");
@@ -13,10 +13,10 @@ public final class Helper {
         if(f.exists()) {
             return f.delete();
         }
-        return true;
+        return false;
     }
 
-    public Boolean readerWriter(String oldFilePath) {
+    Boolean readerWriter(String oldFilePath) {
         try {
             FileWriter writer = new FileWriter("tempFile.txt", false);
             FileReader fileReader = new FileReader(oldFilePath);
@@ -40,7 +40,9 @@ public final class Helper {
             File tempFile = new File("tempFile.txt");
             File newFile = new File(newPath);
             tempFile.renameTo(newFile);
-            tempFile.delete();
+            if(tempFile.delete()){
+                return true;
+            }
 
         }catch (IOException e){
             System.out.println("File not found.");
