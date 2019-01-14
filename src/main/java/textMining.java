@@ -1,10 +1,9 @@
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 class textMining {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Processor p = new Processor();
-        Scanner sc= new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int opcao;
         do {
             System.out.println("\n\n### Text Mining App ###");
@@ -31,10 +30,10 @@ class textMining {
                     System.out.println(p.getGrauSimList().toString());
                     break;
                 case 4:
-                    System.out.println(p.graSimRankingMinValue());
+                    p.menuGrauSimRankingMinValue();
                     break;
                 case 5:
-                    System.out.println(p.grauSimRankingMaxDoc());
+                    p.menuGrauSimRankingMaxDoc();
                     break;
                 case 0:
                     break;

@@ -1,11 +1,9 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HelperTest {
-    Helper h= new Helper();
+    private Helper h = new Helper();
 
     @Test
     void readerWriter() {
@@ -14,5 +12,6 @@ class HelperTest {
 
     @Test
     void readerWriter2() {
-        assertEquals(true, h.readerWriter("test1.txt"));}
+        assertEquals(true, h.readerWriter("test1.txt"));
+    }
 }

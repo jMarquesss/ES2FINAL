@@ -6,14 +6,12 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProcessorTest {
-    Processor p= new Processor();
+    private Processor p = new Processor();
 
     @Test
     void docMatrixBuilder() {
         assertThrows(IOException.class,
-                () -> {
-                    p.docMatrixBuilder(Paths.get("nonExistingFilePath.txt"));
-                });
+                () -> p.docMatrixBuilder(Paths.get("nonExistingFilePath.txt")));
     }
 
     @Test
@@ -47,7 +45,7 @@ class ProcessorTest {
         p.queryMatrixBuilder("ola");
         Integer cell = (int) p.getQueryMatrix().get(0);
         p.queryReplacer(p.getQueryMatrix());
-        assertFalse(cell.equals(p.getQueryMatrix().get(0)));
+        assertNotEquals(cell, p.getQueryMatrix().get(0));
 
     }
 

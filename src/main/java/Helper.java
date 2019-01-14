@@ -1,16 +1,14 @@
 import java.io.*;
-import java.io.File;
-import java.io.FileReader;
 
 final class Helper {
-    
+
     private String replacer(String oldStr) {
-            return oldStr.replaceAll("[0-9,.!?\\-_\n/]", "");
+        return oldStr.replaceAll("[0-9,.!?\\-_\n/]", "");
     }
 
-    private void fileReseter(String filePath){
+    private void fileReseter(String filePath) {
         File f = new File(filePath);
-        if(f.exists()) {
+        if (f.exists()) {
             f.delete();
         }
     }
@@ -24,8 +22,8 @@ final class Helper {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String newLine = this.replacer(line);
-                if(!newLine.isEmpty()) {
-                    writer.write(newLine+"\r\n");
+                if (!newLine.isEmpty()) {
+                    writer.write(newLine + "\r\n");
                 }
             }
 
@@ -33,15 +31,15 @@ final class Helper {
             writer.close();
 
 
-            String newPath=oldFilePath.substring(0,oldFilePath.lastIndexOf("."));
-            newPath= newPath + "New.txt";
+            String newPath = oldFilePath.substring(0, oldFilePath.lastIndexOf("."));
+            newPath = newPath + "New.txt";
             fileReseter(newPath);
             File tempFile = new File("tempFile.txt");
             File newFile = new File(newPath);
             tempFile.renameTo(newFile);
             tempFile.delete();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("File not found.");
             return false;
         }

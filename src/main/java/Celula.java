@@ -6,7 +6,7 @@ public class Celula {
 
     Celula(String word) {
         this.word = word;
-        this.number=0;
+        this.number = 0;
     }
 
 

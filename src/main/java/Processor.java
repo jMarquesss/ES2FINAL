@@ -7,26 +7,27 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class Processor {
+class Processor {
     private Helper helper = new Helper();
     private LinkedHashSet<String> wordsList = new LinkedHashSet<>();
-    private int docList;
+    private ArrayList docList;
     private ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
     private ArrayList<ArrayList<Double>> transformedMatrix = new ArrayList<>();
     private ArrayList queryMatrix;
     private Map<String, Double> grauSimList = new HashMap<>();
 
-    public Processor() {
+    Processor() {
         queryMatrix = new ArrayList();
+        docList = new ArrayList();
     }
 
-    void menuDocAdder(){
+    void menuDocAdder() {
         System.out.println("Insirav o path para o ficheiro: ");
-        Scanner sc= new Scanner(System.in);
-        String path= sc.nextLine();
+        Scanner sc = new Scanner(System.in);
+        String path = sc.nextLine();
         getHelper().readerWriter(path);
-        String newPath=path.substring(0,path.lastIndexOf("."));
-        newPath= newPath + "New.txt";
+        String newPath = path.substring(0, path.lastIndexOf("."));
+        newPath = newPath + "New.txt";
         try {
             docMatrixBuilder(Paths.get(newPath));
         } catch (IOException e) {
@@ -36,12 +37,26 @@ public class Processor {
 
     }
 
-    void menuQueryAdder(){
+    void menuQueryAdder() {
         System.out.println("Insira o query de pesquisa:  ");
-        Scanner sc= new Scanner(System.in);
-        String query= sc.nextLine();
+        Scanner sc = new Scanner(System.in);
+        String query = sc.nextLine();
         queryMatrixBuilder(query);
         queryReplacer(getQueryMatrix());
+    }
+
+    void menuGrauSimRankingMaxDoc() {
+        System.out.println("Insira o maximo de documentos a mostrar: ");
+        Scanner sc = new Scanner(System.in);
+        int max = sc.nextInt();
+        System.out.println(grauSimRankingMaxDoc(max));
+    }
+
+    void menuGrauSimRankingMinValue() {
+        System.out.println("Insira o minimo de similaridade a mostrar: ");
+        Scanner sc = new Scanner(System.in);
+        double min = sc.nextDouble();
+        System.out.println(grauSimRankingMinValue(min));
     }
 
     void docMatrixBuilder(Path myPath) throws IOException {
@@ -56,7 +71,7 @@ public class Processor {
         ArrayList<Integer> OccurrencesArray = new ArrayList<>();
         for (Celula temp : docMatrix) OccurrencesArray.add(temp.getNumber());
         matrix.add(OccurrencesArray);
-        docList = matrix.size();
+        docList.add(myPath.toString());
     }
 
     private void occurrencesArrayBuilder(ArrayList<Celula> docMatrix, ArrayList<String> docWordsList) {
@@ -103,7 +118,7 @@ public class Processor {
             } catch (IndexOutOfBoundsException ignored) {
             }
         }
-        return ((double) startValue * 1 + Math.log10((double) docList / (double) contador));
+        return ((double) startValue * 1 + Math.log10((double) docList.size() / (double) contador));
     }
 
     void queryReplacer(ArrayList list) {
@@ -124,37 +139,33 @@ public class Processor {
     }
 
     void grauSimRankingsBuilder() {
-        for (int i = 0; i < docList; i++) grauSimList.put("Documento " + (i + 1), grauSimCalculator(i));
+        for (int i = 0; i < docList.size(); i++) grauSimList.put((String) docList.get(i), grauSimCalculator(i));
         grauSimList = grauSimList.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
-    HashMap grauSimRankingMaxDoc(){
-        System.out.println("Insira o maximo de documentos a mostrar: ");
-        Scanner sc= new Scanner(System.in);
-        int max= sc.nextInt();
-        Map<String, Double> sizeMap= grauSimList;
-        for (int i=max;i<sizeMap.size();i++){
-            sizeMap.remove("Documento " + (i + 1));
+    private HashMap grauSimRankingMaxDoc(int max) {
+        Map<String, Double> maxDocMap = new HashMap<>();
+        Object[] maxDocList = grauSimList.entrySet().toArray();
+        for (int i = 0; i < max; i++) {
+            Map.Entry<String, Double> temp = (Map.Entry<String, Double>) maxDocList[i];
+            maxDocMap.put(temp.getKey(), temp.getValue());
         }
-        return (HashMap) sizeMap;
+        return (HashMap) maxDocMap;
     }
 
-    HashMap graSimRankingMinValue() {
-        System.out.println("Insira o minimo de similaridade a mostrar: ");
-        Scanner sc= new Scanner(System.in);
-        double min= sc.nextDouble();
-        Object[] minValueList= grauSimList.entrySet().toArray();
-        int i=0;
-        for(;i<minValueList.length;i++){
+    private HashMap grauSimRankingMinValue(double min) {
+        Object[] minValueList = grauSimList.entrySet().toArray();
+        int i = 0;
+        for (; i < minValueList.length; i++) {
             Map.Entry<String, Double> temp = (Map.Entry<String, Double>) minValueList[i];
-            if(temp.getValue()<min){
+            if (temp.getValue() < min) {
                 break;
             }
         }
-        Map<String, Double> minValueMap= new HashMap<>();
-        for(int j=0;j<i;j++){
+        Map<String, Double> minValueMap = new HashMap<>();
+        for (int j = 0; j < i; j++) {
             Map.Entry<String, Double> help = (Map.Entry<String, Double>) minValueList[j];
             minValueMap.put(help.getKey(), help.getValue());
         }
@@ -162,7 +173,9 @@ public class Processor {
         return (HashMap) minValueMap;
     }
 
-    LinkedHashSet<String> getWordsList() { return wordsList; }
+    LinkedHashSet<String> getWordsList() {
+        return wordsList;
+    }
 
     Map<String, Double> getGrauSimList() {
         return grauSimList;
