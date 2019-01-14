@@ -94,7 +94,6 @@ class Processor {
             queryArray.add(new Celula((String) wordsList.toArray()[i]));
         }
         occurrencesArrayBuilder(queryArray, queryWordsList);
-
         for (Celula temp : queryArray) {
             queryMatrix.add(temp.getNumber());
         }

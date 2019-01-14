@@ -6,12 +6,12 @@ class HelperTest {
     private Helper h = new Helper();
 
     @Test
-    void readerWriter() {
+    void test1() {
         assertEquals(false, h.readerWriter("nonExistingFile.txt"));
     }
 
     @Test
-    void readerWriter2() {
+    void test2() {
         assertEquals(true, h.readerWriter("test1.txt"));
     }
 }

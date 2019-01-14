@@ -9,13 +9,13 @@ class ProcessorTest {
     private Processor p = new Processor();
 
     @Test
-    void docMatrixBuilder() {
+    void test3() {
         assertThrows(IOException.class,
                 () -> p.docMatrixBuilder(Paths.get("nonExistingFilePath.txt")));
     }
 
     @Test
-    void queryMatrixBuilder() {
+    void test4() {
         p.getWordsList().add("random");
         p.getWordsList().add("query");
         assertTrue(p.queryMatrixBuilder("random query"));
@@ -26,7 +26,7 @@ class ProcessorTest {
     }
 
     @Test
-    void matrixReplacer() {
+    void test5() {
         try {
             p.docMatrixBuilder(Paths.get("test1New.txt"));
         } catch (IOException e) {
@@ -36,7 +36,7 @@ class ProcessorTest {
     }
 
     @Test
-    void queryReplacer() {
+    void test6() {
         try {
             p.docMatrixBuilder(Paths.get("test1New.txt"));
         } catch (IOException e) {
@@ -50,7 +50,7 @@ class ProcessorTest {
     }
 
     @Test
-    void grauSimRankingsBuilder() {
+    void test7() {
         try {
             p.docMatrixBuilder(Paths.get("test1New.txt"));
         } catch (IOException e) {
