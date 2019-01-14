@@ -59,7 +59,7 @@ class Processor {
         System.out.println(grauSimRankingMinValue(min));
     }
 
-    void docMatrixBuilder(Path myPath) throws IOException {
+    boolean docMatrixBuilder(Path myPath) throws IOException {
         String contents = new String(Files.readAllBytes(myPath), StandardCharsets.UTF_8);
         ArrayList<Celula> docMatrix = new ArrayList<>();
         ArrayList<String> docWordsList = new ArrayList<>(Arrays.asList(contents.split("\\W+")));
@@ -74,6 +74,7 @@ class Processor {
         String longPath = myPath.toString();
         String fileName = longPath.substring(longPath.lastIndexOf('\\') + 1);
         docList.add(fileName);
+        return true;
     }
 
     private void occurrencesArrayBuilder(ArrayList<Celula> docMatrix, ArrayList<String> docWordsList) {
@@ -100,13 +101,12 @@ class Processor {
         return queryMatrix.size() > 0;
     }
 
-    boolean matrixReplacer() {
+    void matrixReplacer() {
         for (ArrayList<Integer> aMatrix : matrix) {
             ArrayList<Double> line = new ArrayList<>();
             for (int i = 0; i < aMatrix.size(); i++) line.add(i, valueTransformer(aMatrix.get(i), i));
             transformedMatrix.add(line);
         }
-        return transformedMatrix.get(0).get(0).equals(matrix.get(0).get(0));
     }
 
     private double valueTransformer(int startValue, int column) {

@@ -16,27 +16,46 @@ class ProcessorTest {
 
     @Test
     void test4() {
-        p.getWordsList().add("random");
-        p.getWordsList().add("query");
-        assertTrue(p.queryMatrixBuilder("random query"));
-        p.getWordsList().clear();
-        p.getQueryMatrix().clear();
+        try {
+            assertTrue(p.docMatrixBuilder(Paths.get("test1.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void test5() {
         assertFalse(p.queryMatrixBuilder(""));
 
     }
 
     @Test
-    void test5() {
+    void test6() {
+        p.getWordsList().add("random");
+        p.getWordsList().add("query");
+        assertTrue(p.queryMatrixBuilder("random query"));
+    }
+
+    @Test
+    void test7() {
         try {
             p.docMatrixBuilder(Paths.get("test1New.txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assertFalse(p.matrixReplacer());
+        Integer cell = p.getMatrix().get(0).get(0);
+        p.matrixReplacer();
+        assertNotEquals(cell, p.getTransformedMatrix().get(0).get(0));
     }
 
     @Test
-    void test6() {
+    void test8() {
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> p.matrixReplacer());
+    }
+
+    @Test
+    void test9() {
         try {
             p.docMatrixBuilder(Paths.get("test1New.txt"));
         } catch (IOException e) {
@@ -46,11 +65,11 @@ class ProcessorTest {
         Integer cell = (int) p.getQueryMatrix().get(0);
         p.queryReplacer(p.getQueryMatrix());
         assertNotEquals(cell, p.getQueryMatrix().get(0));
-
     }
 
+
     @Test
-    void test7() {
+    void test10() {
         try {
             p.docMatrixBuilder(Paths.get("test1New.txt"));
         } catch (IOException e) {
@@ -63,5 +82,4 @@ class ProcessorTest {
         p.grauSimRankingsBuilder();
         assertNotEquals(size, p.getGrauSimList().size());
     }
-
 }
