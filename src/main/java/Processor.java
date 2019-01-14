@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,30 @@ public class Processor {
 
     public Processor() {
         queryMatrix = new ArrayList();
+    }
+
+    void menuDocAdder(){
+        System.out.println("Insirav o path para o ficheiro: ");
+        Scanner sc= new Scanner(System.in);
+        String path= sc.nextLine();
+        getHelper().readerWriter(path);
+        String newPath=path.substring(0,path.lastIndexOf("."));
+        newPath= newPath + "New.txt";
+        try {
+            docMatrixBuilder(Paths.get(newPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        matrixReplacer();
+
+    }
+
+    void menuQueryAdder(){
+        System.out.println("Insira o query de pesquisa:  ");
+        Scanner sc= new Scanner(System.in);
+        String query= sc.nextLine();
+        queryMatrixBuilder(query);
+        queryReplacer(getQueryMatrix());
     }
 
     void docMatrixBuilder(Path myPath) throws IOException {
@@ -103,6 +128,38 @@ public class Processor {
         grauSimList = grauSimList.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+    }
+
+    HashMap grauSimRankingMaxDoc(){
+        System.out.println("Insira o maximo de documentos a mostrar: ");
+        Scanner sc= new Scanner(System.in);
+        int max= sc.nextInt();
+        Map<String, Double> sizeMap= grauSimList;
+        for (int i=max;i<sizeMap.size();i++){
+            sizeMap.remove("Documento " + (i + 1));
+        }
+        return (HashMap) sizeMap;
+    }
+
+    HashMap graSimRankingMinValue() {
+        System.out.println("Insira o minimo de similaridade a mostrar: ");
+        Scanner sc= new Scanner(System.in);
+        double min= sc.nextDouble();
+        Object[] minValueList= grauSimList.entrySet().toArray();
+        int i=0;
+        for(;i<minValueList.length;i++){
+            Map.Entry<String, Double> temp = (Map.Entry<String, Double>) minValueList[i];
+            if(temp.getValue()<min){
+                break;
+            }
+        }
+        Map<String, Double> minValueMap= new HashMap<>();
+        for(int j=0;j<i;j++){
+            Map.Entry<String, Double> help = (Map.Entry<String, Double>) minValueList[j];
+            minValueMap.put(help.getKey(), help.getValue());
+        }
+
+        return (HashMap) minValueMap;
     }
 
     LinkedHashSet<String> getWordsList() { return wordsList; }
