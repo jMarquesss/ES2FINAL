@@ -71,7 +71,9 @@ class Processor {
         ArrayList<Integer> OccurrencesArray = new ArrayList<>();
         for (Celula temp : docMatrix) OccurrencesArray.add(temp.getNumber());
         matrix.add(OccurrencesArray);
-        docList.add(myPath.toString());
+        String longPath = myPath.toString();
+        String fileName = longPath.substring(longPath.lastIndexOf('\\') + 1);
+        docList.add(fileName);
     }
 
     private void occurrencesArrayBuilder(ArrayList<Celula> docMatrix, ArrayList<String> docWordsList) {
